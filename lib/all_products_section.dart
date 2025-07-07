@@ -27,7 +27,6 @@ class ProductsSection extends StatelessWidget {
         GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
           childAspectRatio: 1,
           padding: const EdgeInsets.symmetric(horizontal: 8),
           crossAxisSpacing: 12,

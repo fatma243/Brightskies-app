@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'home.dart';
+import 'start_screen.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(const App());
+}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'E-commerce',
       debugShowCheckedModeBanner: false,
-      home: const Home(),
+      home: const StartScreen(),
     );
   }
 }
