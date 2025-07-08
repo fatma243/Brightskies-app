@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../product.dart';
+import '../../../../product.dart';
+import '../../../commonui/title_widget.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -17,7 +18,41 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     setState(() {
       _selectedRating = rating;
     });
+  }
 
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+      child: Text(
+        title,
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  List<Widget> _buildFeatureList(List<String> features) {
+    return features.map((feature) {
+      return ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: const Icon(Icons.check_circle_outline, color: Colors.green),
+        title: Text(feature),
+      );
+    }).toList();
+  }
+
+  Widget _buildRatingBar() {
+    return Row(
+      children: List.generate(5, (index) {
+        return IconButton(
+          icon: Icon(
+            index < _selectedRating ? Icons.star : Icons.star_border,
+            color: Colors.amber,
+            size: 30,
+          ),
+          onPressed: () => _setRating(index + 1),
+        );
+      }),
+    );
   }
 
   @override
@@ -61,44 +96,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Text(product.rating.toString()),
               ],
             ),
-            const SizedBox(height: 16),
-            const Text(
-              'Description',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            const SectionTitle(
+              text: "Description",
+              padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+              fontSize: 20,
             ),
-            const SizedBox(height: 8),
             Text(product.description),
-            const SizedBox(height: 16),
-            const Text(
-              'Features',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            const SectionTitle(
+              text: "Features",
+              padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+              fontSize: 20,
             ),
-            const SizedBox(height: 8),
-            ...product.features.map((feature) {
-              return ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.check_circle_outline, color: Colors.green),
-                title: Text(feature),
-              );
-            }),
-            const SizedBox(height: 20),
-            const Text(
-              'Your Rating',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ..._buildFeatureList(product.features),
+            const SectionTitle(
+              text: "Your Rating",
+              padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+              fontSize: 20,
             ),
-            const SizedBox(height: 8),
-            Row(
-              children: List.generate(5, (index) {
-                return IconButton(
-                  icon: Icon(
-                    index < _selectedRating ? Icons.star : Icons.star_border,
-                    color: Colors.amber,
-                    size: 30,
-                  ),
-                  onPressed: () => _setRating(index + 1),
-                );
-              }),
-            ),
+            _buildRatingBar(),
           ],
         ),
       ),
@@ -109,8 +124,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           height: 50,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              backgroundColor: Colors.white12,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
             ),
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -119,7 +135,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             },
             child: const Text(
               'Add to Cart',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
