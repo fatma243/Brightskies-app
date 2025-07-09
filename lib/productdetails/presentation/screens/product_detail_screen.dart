@@ -22,15 +22,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     });
   }
 
-  Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
-      child: Text(
-        title,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
 
   List<Widget> _buildFeatureList(List<String> features) {
     return features.map((feature) {
@@ -126,7 +117,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             final quantity = state.getQuantity(product);
 
             if (quantity == 0) {
-              // Show Add to Cart button
+
               return SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -151,7 +142,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
               );
             } else {
-              // Show quantity counter
+
               return Container(
                 height: 50,
                 decoration: BoxDecoration(

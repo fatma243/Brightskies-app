@@ -105,7 +105,7 @@ class FeaturedSection extends StatelessWidget {
                   right: 0,
                   child: Container(
                     padding: const EdgeInsets.all(12),
-                    color: Colors.white.withOpacity(0.8), // Semi-transparent white
+                    color: Colors.white.withOpacity(0.8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
