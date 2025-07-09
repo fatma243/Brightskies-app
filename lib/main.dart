@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'commonui/manager/cart_bloc.dart';
 import 'start_screen.dart';
 
 void main() {
-  runApp(const App());
+  runApp(
+    BlocProvider(
+      create: (_) => CartBloc(),
+      child: const App(),
+    ),
+  );
 }
 
 class App extends StatelessWidget {

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../../cart_page.dart';
+import '../../../commonui/manager/cart_bloc.dart';
 import '../../../product.dart';
 import '../../../product_card.dart';
 import 'package:my_app/commonui/title_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -15,7 +19,42 @@ class Home extends StatelessWidget {
           "E-commerce",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
+        actions: [
+          BlocBuilder<CartBloc, CartState>(
+            builder: (context, state) {
+              return Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.shopping_cart),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CartPage()),
+                      );
+                    },
+                  ),
+                  if (state.count > 0)
+                    Positioned(
+                      right: 8,
+                      top: 8,
+                      child: CircleAvatar(
+                        radius: 8,
+                        backgroundColor: Colors.red,
+                        child: Text(
+                          '${state.count}',
+                          style: const TextStyle(fontSize: 10, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
+        ],
       ),
+
+
       body: const SafeArea(
         child: SingleChildScrollView(
           child: Column(
