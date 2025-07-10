@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../cart_page.dart';
-import '../../../commonui/manager/cart_bloc.dart';
-import '../../../product.dart';
-import '../../../product_card.dart';
+import '../../../appservice/cart_state.dart';
+import '../../../cart/presentation/screens/cart_page.dart';
+import '../../../appservice/cart_bloc.dart';
+import '../../../appservice/product.dart';
+import 'product_card.dart';
 import 'package:my_app/commonui/title_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -211,6 +212,7 @@ class ProductsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Product> products = [
       Product(
+        id: 'p1',
         imagePath: 'assets/images/car1.webp',
         title: 'Geely Galaxy L7',
         price: 22000,
@@ -224,6 +226,7 @@ class ProductsSection extends StatelessWidget {
         ],
       ),
       Product(
+        id: 'p2',
         imagePath: 'assets/images/car2.jpeg',
         title: 'Mercedes-Benz G-Class',
         price: 37000,
@@ -237,6 +240,7 @@ class ProductsSection extends StatelessWidget {
         ],
       ),
       Product(
+        id: 'p3',
         imagePath: 'assets/images/car5.jpeg',
         title: 'Ford Puma',
         price: 18000,
@@ -250,6 +254,7 @@ class ProductsSection extends StatelessWidget {
         ],
       ),
       Product(
+        id: 'p4',
         imagePath: 'assets/images/car6.jpeg',
         title: 'Hyundai Ioniq 6',
         price: 44000,

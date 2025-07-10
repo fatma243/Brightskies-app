@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../product.dart';
-import '../../../commonui/manager/cart_bloc.dart';
+import '../../../appservice/product.dart';
+import '../../../appservice/cart_bloc.dart';
+import '../../../appservice/cart_event.dart';
+import '../../../appservice/cart_state.dart';
 import '../../../commonui/title_widget.dart';
 
 class ProductDetailScreen extends StatefulWidget {
