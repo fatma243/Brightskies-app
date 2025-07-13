@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../appservice/bottom_navigation.dart';
+import '../home/presentation/screens/home.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -29,7 +29,7 @@ class StartScreen extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const BottomNavigation(),
+                      builder: (context) => const Home(),
                     ),
                   );
                 },
