@@ -25,7 +25,6 @@ class StartScreen extends StatelessWidget {
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
-                  // Navigate to main screen with bottom nav
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
