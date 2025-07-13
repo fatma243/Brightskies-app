@@ -1,36 +1,42 @@
-import 'dart:convert';
+import 'package:hive/hive.dart';
 import 'package:my_app/appservice/product.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 
 class CartStorageService {
-  final SharedPreferences prefs;
-  static const _key = 'user_cart';
+  static const String _boxName = 'cartBox';
+  late final Box _box;
 
-  CartStorageService(this.prefs);
+  CartStorageService() {
+    if (Hive.isBoxOpen(_boxName)) {
+      _box = Hive.box(_boxName);
+    } else {
+      throw Exception('Hive box "$_boxName" is not open. Call Hive.openBox before using CartStorageService.');
+    }
+  }
 
   Future<void> saveCart(Map<Product, int> cart) async {
-    final List<Map<String, dynamic>> encoded = cart.entries.map((entry) {
-      return {
-        'product': entry.key.toJson(),
+    await _box.clear();
+    for (var entry in cart.entries) {
+      await _box.put(entry.key.id, {
+        'product': entry.key,
         'quantity': entry.value,
-      };
-    }).toList();
-
-    await prefs.setString(_key, jsonEncode(encoded));
+      });
+    }
   }
 
   Map<Product, int> loadCart() {
-    final jsonString = prefs.getString(_key);
-    if (jsonString == null) return {};
-
-    final List decoded = jsonDecode(jsonString);
     final Map<Product, int> cart = {};
-    for (final item in decoded) {
-      final product = Product.fromJson(item['product']);
-      final quantity = item['quantity'] as int;
-      cart[product] = quantity;
+    for (var key in _box.keys) {
+      final data = _box.get(key);
+      if (data is Map &&
+          data['product'] is Product &&
+          data['quantity'] is int) {
+        cart[data['product'] as Product] = data['quantity'] as int;
+      }
     }
     return cart;
+  }
+
+  Future<void> clearCart() async {
+    await _box.clear();
   }
 }

@@ -48,5 +48,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(CartState(updated));
       storageService.saveCart(updated);
     });
+    on<ClearCart>((event, emit) async {
+      await storageService.clearCart();
+      emit(const CartState({}));
+    });
+
+
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../home/presentation/screens/home.dart';
+import '../appservice/bottom_navigation.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -25,9 +25,12 @@ class StartScreen extends StatelessWidget {
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
+                  // Navigate to main screen with bottom nav
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const Home()),
+                    MaterialPageRoute(
+                      builder: (context) => const BottomNavigation(),
+                    ),
                   );
                 },
                 child: const Text("Get Started"),

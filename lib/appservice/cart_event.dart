@@ -27,3 +27,4 @@ class LoadCart extends CartEvent {
   final Map<Product, int> loadedItems;
   LoadCart(this.loadedItems);
 }
+class ClearCart extends CartEvent {}

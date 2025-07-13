@@ -1,11 +1,31 @@
+import 'package:hive/hive.dart';
+
+part 'product.g.dart';
+
+@HiveType(typeId: 0)
 class Product {
+  @HiveField(0)
   final String id;
+
+  @HiveField(1)
   final String imagePath;
+
+  @HiveField(2)
   final String title;
+
+  @HiveField(3)
   final double price;
+
+  @HiveField(4)
   final String description;
+
+  @HiveField(5)
   final String location;
+
+  @HiveField(6)
   final double rating;
+
+  @HiveField(7)
   final List<String> features;
 
   Product({
@@ -54,8 +74,5 @@ class Product {
   }
 
   @override
-  int get hashCode {
-    return id.hashCode;
-  }
-
+  int get hashCode => id.hashCode;
 }

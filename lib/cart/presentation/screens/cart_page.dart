@@ -10,7 +10,19 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Your Cart")),
+      appBar: AppBar(
+        title: const Text("Your Cart"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete_forever),
+            onPressed: () {
+              context.read<CartBloc>().add(ClearCart());
+            },
+            tooltip: "Clear All",
+          )
+        ],
+      ),
+
       body: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
           final cartItems = state.items;
