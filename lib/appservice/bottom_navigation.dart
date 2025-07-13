@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../cart/presentation/screens/cart_page.dart';
-import '../home/presentation/screens/home.dart';   // Create this screen
+import '../home/presentation/screens/home.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
