@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cart/presentation/screens/cart_page.dart';
 import '../home/presentation/screens/home.dart';
+import '../appservice/cart_bloc.dart';
+import '../appservice/cart_state.dart';
+import '../profile.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -15,23 +19,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   final List<Widget> _screens = [
     const Home(),
     const CartPage(),
-    const SizedBox(),
-  ];
-
-  final List<BottomNavigationBarItem> _bottomItems = const [
-    BottomNavigationBarItem(
-      icon: Icon(Icons.home),
-      label: 'Home',
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.shopping_cart),
-      label: 'Cart',
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.favorite),
-      label: 'Favorites',
-    ),
-
+    const ProfilePage(),
   ];
 
   void _onTabSelected(int index) {
@@ -45,7 +33,47 @@ class _BottomNavigationState extends State<BottomNavigation> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        items: _bottomItems,
+        items: [
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+
+          BottomNavigationBarItem(
+            icon: BlocBuilder<CartBloc, CartState>(
+              builder: (context, state) {
+                return Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    const Icon(Icons.shopping_cart),
+                    if (state.count > 0)
+                      Positioned(
+                        right: -6,
+                        top: -6,
+                        child: CircleAvatar(
+                          radius: 8,
+                          backgroundColor: Colors.red,
+                          child: Text(
+                            '${state.count}',
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            ),
+            label: 'Cart',
+          ),
+
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
         currentIndex: _selectedIndex,
         onTap: _onTabSelected,
         selectedItemColor: Colors.blue,

@@ -8,8 +8,6 @@ class CartStorageService {
   CartStorageService() {
     if (Hive.isBoxOpen(_boxName)) {
       _box = Hive.box(_boxName);
-    } else {
-      throw Exception('Hive box "$_boxName" is not open. Call Hive.openBox before using CartStorageService.');
     }
   }
 

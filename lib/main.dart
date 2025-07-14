@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import 'appservice/product.dart';
 import 'appservice/cart_event.dart';
 import 'cart/presentation/cart_storage_service.dart';

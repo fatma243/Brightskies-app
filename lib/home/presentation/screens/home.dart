@@ -20,39 +20,6 @@ class Home extends StatelessWidget {
           "E-commerce",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        actions: [
-          BlocBuilder<CartBloc, CartState>(
-            builder: (context, state) {
-              return Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.shopping_cart),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const CartPage()),
-                      );
-                    },
-                  ),
-                  if (state.count > 0)
-                    Positioned(
-                      right: 8,
-                      top: 8,
-                      child: CircleAvatar(
-                        radius: 8,
-                        backgroundColor: Colors.red,
-                        child: Text(
-                          '${state.count}',
-                          style: const TextStyle(fontSize: 10, color: Colors.white),
-                        ),
-                      ),
-                    ),
-                ],
-              );
-            },
-          ),
-        ],
       ),
 
 

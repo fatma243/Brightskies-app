@@ -49,43 +49,59 @@ class CartPage extends StatelessWidget {
                       leading: Image.asset(product.imagePath, width: 50),
                       title: Text(product.title),
                       subtitle: Text("\$${product.price.toStringAsFixed(2)}"),
-                      trailing: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                quantity == 1 ? Icons.delete : Icons.remove,
-                                color: Colors.white,
-                                size: 18,
-                              ),
-                              onPressed: () {
-                                if (quantity == 1) {
-                                  context.read<CartBloc>().add(RemoveFromCart(product));
-                                } else {
-                                  context.read<CartBloc>().add(DecrementQuantity(product));
-                                }
-                              },
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            tooltip: "Remove Item",
+                            onPressed: () {
+                              context.read<CartBloc>().add(RemoveFromCart(product));
+                            },
+                          ),
+
+
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            Text(
-                              '$quantity',
-                              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    quantity == 1 ? Icons.delete_forever : Icons.remove,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
+                                  onPressed: () {
+                                    if (quantity == 1) {
+                                      context.read<CartBloc>().add(RemoveFromCart(product));
+                                    } else {
+                                      context.read<CartBloc>().add(DecrementQuantity(product));
+                                    }
+                                  },
+                                ),
+                                Text(
+                                  '$quantity',
+                                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.add, color: Colors.white, size: 18),
+                                  onPressed: () {
+                                    context.read<CartBloc>().add(IncrementQuantity(product));
+                                  },
+                                ),
+                              ],
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.add, color: Colors.white, size: 18),
-                              onPressed: () {
-                                context.read<CartBloc>().add(IncrementQuantity(product));
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     );
+
 
                   },
                 ),
