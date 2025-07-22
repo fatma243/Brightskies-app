@@ -1,9 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import '../cart/presentation/cart_storage_service.dart';
+import '../network/api_client.dart';
 import 'product.dart';
 import 'cart_event.dart';
 import 'cart_state.dart';
 
+@injectable
 class CartBloc extends Bloc<CartEvent, CartState> {
   final CartStorageService storageService;
 
@@ -54,5 +57,20 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     });
 
 
+  }
+}
+class ProductBloc extends Bloc<ProductEvent, ProductState> {
+  final ApiClient apiClient;
+
+  ProductBloc(this.apiClient) : super(ProductInitial()) {
+    on<FetchProducts>((event, emit) async {
+      emit(ProductLoading());
+      try {
+        final products = await apiClient.getProducts();
+        emit(ProductLoaded(products));
+      } catch (e) {
+        emit(ProductError(e.toString()));
+      }
+    });
   }
 }

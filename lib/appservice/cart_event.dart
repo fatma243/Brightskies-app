@@ -28,3 +28,7 @@ class LoadCart extends CartEvent {
   LoadCart(this.loadedItems);
 }
 class ClearCart extends CartEvent {}
+
+abstract class ProductEvent {}
+
+class FetchProducts extends ProductEvent {}

@@ -1,6 +1,8 @@
 import 'package:hive/hive.dart';
+import 'package:injectable/injectable.dart';
 import 'package:my_app/appservice/product.dart';
 
+@injectable
 class CartStorageService {
   static const String _boxName = 'cartBox';
   late final Box _box;

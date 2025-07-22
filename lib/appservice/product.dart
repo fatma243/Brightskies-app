@@ -1,77 +1,65 @@
 import 'package:hive/hive.dart';
+import 'package:json_annotation/json_annotation.dart';
+
 part 'product.g.dart';
 
 @HiveType(typeId: 0)
+@JsonSerializable()
 class Product {
   @HiveField(0)
-  final String id;
+  final int id;
 
   @HiveField(1)
-  final String imagePath;
-
-  @HiveField(2)
   final String title;
 
-  @HiveField(3)
+  @HiveField(2)
   final double price;
 
-  @HiveField(4)
+  @HiveField(3)
   final String description;
 
+  @HiveField(4)
+  final List<String> images;
+
   @HiveField(5)
-  final String location;
+  final String? categoryName;
 
   @HiveField(6)
-  final double rating;
+  final String? selectedSize;
 
   @HiveField(7)
-  final List<String> features;
+  final String? selectedColorName;
 
   Product({
     required this.id,
-    required this.imagePath,
     required this.title,
     required this.price,
     required this.description,
-    required this.location,
-    required this.rating,
-    required this.features,
+    required this.images,
+    this.categoryName,
+    this.selectedSize,
+    this.selectedColorName,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      id: json['id'],
-      imagePath: json['imagePath'],
-      title: json['title'],
-      price: (json['price'] as num).toDouble(),
-      description: json['description'],
-      location: json['location'],
-      rating: (json['rating'] as num).toDouble(),
-      features: List<String>.from(json['features']),
-    );
-  }
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+    id: json['id'],
+    title: json['title'],
+    price: (json['price'] as num).toDouble(),
+    description: json['description'],
+    images: List<String>.from(json['images'] ?? []),
+    categoryName: json['category']?['name'],
+    selectedSize: json['selectedSize'],
+    selectedColorName: json['selectedColorName'],
+  );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'imagePath': imagePath,
-      'title': title,
-      'price': price,
-      'description': description,
-      'location': location,
-      'rating': rating,
-      'features': features,
-    };
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (other is Product) {
-      return id == other.id;
-    }
-    return false;
-  }
-
-  @override
-  int get hashCode => id.hashCode;
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'price': price,
+    'description': description,
+    'images': images,
+    'category': {'name': categoryName},
+    'selectedSize': selectedSize,
+    'selectedColorName': selectedColorName,
+  };
 }
