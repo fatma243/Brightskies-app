@@ -18,7 +18,7 @@ dependencies:
   path_provider: ^2.1.2
   dio: ^5.4.0
   retrofit: ^4.5.0  # compatible with Dart <=3.5.x
-  json_annotation: ^4.8.1
+  json_annotation: ^4.9.0
   logger: ^2.0.2
   flutter_svg: ^2.0.7
   flutter_bloc: ^8.1.3  # stay below v9 for Dart <=3.5
@@ -32,6 +32,7 @@ dev_dependencies:
   injectable_generator: ^2.2.0
   hive_generator: ^2.0.1
   flutter_lints: ^2.0.1
+
 
 flutter:
   uses-material-design: true

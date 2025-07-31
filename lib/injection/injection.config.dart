@@ -12,6 +12,7 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:my_app/appservice/cart_bloc.dart' as _i126;
+import 'package:my_app/appservice/categories_bloc.dart' as _i561;
 import 'package:my_app/cart/presentation/cart_storage_service.dart' as _i128;
 import 'package:my_app/injection/injection.dart' as _i237;
 import 'package:my_app/network/api_client.dart' as _i737;
@@ -36,6 +37,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i126.CartBloc(gh<_i128.CartStorageService>()));
     gh.lazySingleton<_i737.ApiClient>(
         () => networkModule.getApiClient(gh<_i361.Dio>()));
+    gh.factory<_i561.CategoryDetailsBloc>(
+        () => blocModule.provideCategoryDetailsBloc(gh<_i737.ApiClient>()));
     gh.lazySingleton<_i126.ProductBloc>(
         () => blocModule.provideProductBloc(gh<_i737.ApiClient>()));
     return this;

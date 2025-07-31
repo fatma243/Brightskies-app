@@ -13,4 +13,17 @@ abstract class ApiClient {
 
   @GET("products/{id}")
   Future<Product> getProductDetails(@Path("id") int id);
+
+  @GET("categories")
+  Future<List<Category>> getCategories();
+
+  @GET("categories/{id}/products")
+  Future<List<Product>> getProductsByCategory(@Path("id") int categoryId);
+
+  @GET("products/")
+  Future<List<Product>> searchProducts(@Query("title") String title);
+
+  @GET("products/")
+  Future<List<Product>> getAllProducts();
+
 }

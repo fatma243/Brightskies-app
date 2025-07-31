@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../categories_page.dart';
+import '../categories/presentation/screens/categories_page.dart';
 import '../home/presentation/screens/home.dart';
 import '../injection/injection.dart';
 import '../profile.dart';
+import '../search/presentation/screens/search_page.dart';
 import 'cart_bloc.dart';
 import 'cart_event.dart';
 
@@ -25,7 +26,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     ),
     BlocProvider(
       create: (context) => getIt<ProductBloc>()..add(FetchProducts()),
-      child: const Center(child: Text('Search Screen')),
+      child: const SearchPage(goToHomeOnBack: true),
     ),
 
     //const Center(child: Text('Search Screen')),

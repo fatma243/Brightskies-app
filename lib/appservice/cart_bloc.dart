@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../cart/presentation/cart_storage_service.dart';
 import '../network/api_client.dart';
+import 'categories_event.dart';
+import 'categories_state.dart';
 import 'product.dart';
 import 'cart_event.dart';
 import 'cart_state.dart';
@@ -74,3 +76,4 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     });
   }
 }
+

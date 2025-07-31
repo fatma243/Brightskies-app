@@ -30,6 +30,9 @@ class Product {
   @HiveField(7)
   final String? selectedColorName;
 
+  @HiveField(8)
+  final int? categoryId;
+
   Product({
     required this.id,
     required this.title,
@@ -39,6 +42,7 @@ class Product {
     this.categoryName,
     this.selectedSize,
     this.selectedColorName,
+    this.categoryId,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -48,6 +52,7 @@ class Product {
     description: json['description'],
     images: List<String>.from(json['images'] ?? []),
     categoryName: json['category']?['name'],
+    categoryId: json['category']?['id'],
     selectedSize: json['selectedSize'],
     selectedColorName: json['selectedColorName'],
   );
@@ -58,8 +63,42 @@ class Product {
     'price': price,
     'description': description,
     'images': images,
-    'category': {'name': categoryName},
+    'category': {
+      'id': categoryId,
+      'name': categoryName,
+    },
     'selectedSize': selectedSize,
     'selectedColorName': selectedColorName,
+  };
+}
+
+@HiveType(typeId: 1)
+@JsonSerializable()
+class Category {
+  @HiveField(0)
+  final int id;
+
+  @HiveField(1)
+  final String name;
+
+  @HiveField(2)
+  final String image;
+
+  Category({
+    required this.id,
+    required this.name,
+    required this.image,
+  });
+
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
+    id: json['id'],
+    name: json['name'],
+    image: json['image'],
+  );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'image': image,
   };
 }

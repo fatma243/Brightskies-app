@@ -38,7 +38,8 @@ class CartPage extends StatelessWidget {
                             child: const SizedBox(
                               width: 20,
                               height: 20,
-                              child: Icon(Icons.chevron_left, size: 20, color: Color(0xFF0019FF)),
+                              child: Icon(Icons.arrow_back_ios,size:20, color: Color(0xFF0019FF)),
+
                             ),
                           ),
                         ),

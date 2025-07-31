@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:my_app/appservice/search_bloc.dart';
 
 import 'appservice/product.dart';
 import 'appservice/cart_event.dart';
@@ -9,12 +10,14 @@ import 'cart/presentation/cart_storage_service.dart';
 import 'injection/injection.dart';
 import 'appservice/bottom_navigation.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
   Hive.registerAdapter(ProductAdapter());
   await Hive.openBox('cartBox');
+  await Hive.openBox<List>('recentSearchesBox');
 
   await configureDependencies();
 
@@ -22,11 +25,19 @@ void main() async {
   final savedCart = cartStorage.loadCart();
 
   runApp(
-    BlocProvider(
-      create: (_) => getIt<CartBloc>()..add(LoadCart(savedCart)),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => getIt<CartBloc>()..add(LoadCart(savedCart)),
+        ),
+        BlocProvider(
+          create: (_) => getIt<ProductBloc>()..add(FetchProducts()),
+        ),
+      ],
       child: const App(),
     ),
   );
+
 }
 
 class App extends StatelessWidget {

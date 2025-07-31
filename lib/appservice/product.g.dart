@@ -25,13 +25,14 @@ class ProductAdapter extends TypeAdapter<Product> {
       categoryName: fields[5] as String?,
       selectedSize: fields[6] as String?,
       selectedColorName: fields[7] as String?,
+      categoryId: fields[8] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Product obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class ProductAdapter extends TypeAdapter<Product> {
       ..writeByte(6)
       ..write(obj.selectedSize)
       ..writeByte(7)
-      ..write(obj.selectedColorName);
+      ..write(obj.selectedColorName)
+      ..writeByte(8)
+      ..write(obj.categoryId);
   }
 
   @override
@@ -57,6 +60,46 @@ class ProductAdapter extends TypeAdapter<Product> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is ProductAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class CategoryAdapter extends TypeAdapter<Category> {
+  @override
+  final int typeId = 1;
+
+  @override
+  Category read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return Category(
+      id: fields[0] as int,
+      name: fields[1] as String,
+      image: fields[2] as String,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Category obj) {
+    writer
+      ..writeByte(3)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.image);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CategoryAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
@@ -75,6 +118,7 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       categoryName: json['categoryName'] as String?,
       selectedSize: json['selectedSize'] as String?,
       selectedColorName: json['selectedColorName'] as String?,
+      categoryId: (json['categoryId'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
@@ -86,4 +130,17 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'categoryName': instance.categoryName,
       'selectedSize': instance.selectedSize,
       'selectedColorName': instance.selectedColorName,
+      'categoryId': instance.categoryId,
+    };
+
+Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
+      id: (json['id'] as num).toInt(),
+      name: json['name'] as String,
+      image: json['image'] as String,
+    );
+
+Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'image': instance.image,
     };
