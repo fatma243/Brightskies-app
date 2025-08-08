@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../appservice/categories_bloc.dart';
 import '../../../appservice/categories_event.dart';
+import '../../../appservice/filter_bloc.dart';
+import '../../../appservice/filter_event.dart';
 import '../../../appservice/product.dart';
 import '../../../commonui/appbar_widget.dart';
 import 'categories_details_page.dart';
@@ -62,6 +64,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     children: categories.map((category) {
                       return GestureDetector(
                         onTap: () {
+                          context.read<FilterBloc>().add(ClearFilter());
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -69,12 +73,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 create: (_) => getIt<CategoryDetailsBloc>()..add(FetchCategoryProducts(category.id)),
                                 child: CategoryDetailsPage(
                                   categoryId: category.id,
-                                  categoryName: category.name,
+                                  categoryName: category.slug,
                                 ),
                               ),
                             ),
                           );
                         },
+
 
 
 
@@ -104,7 +109,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: Text(
-                                      category.name,
+                                      category.slug,
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         color: Colors.white,

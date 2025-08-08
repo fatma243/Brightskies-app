@@ -76,7 +76,7 @@ class CategoryAdapter extends TypeAdapter<Category> {
     };
     return Category(
       id: fields[0] as int,
-      name: fields[1] as String,
+      slug: fields[1] as String,
       image: fields[2] as String,
     );
   }
@@ -88,7 +88,7 @@ class CategoryAdapter extends TypeAdapter<Category> {
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name)
+      ..write(obj.slug)
       ..writeByte(2)
       ..write(obj.image);
   }
@@ -135,12 +135,12 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
 
 Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
       id: (json['id'] as num).toInt(),
-      name: json['name'] as String,
+      slug: json['slug'] as String,
       image: json['image'] as String,
     );
 
 Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
+      'slug': instance.slug,
       'image': instance.image,
     };

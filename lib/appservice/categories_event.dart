@@ -1,3 +1,4 @@
+import 'package:my_app/appservice/product.dart';
 import 'package:my_app/appservice/sort_option.dart';
 
 abstract class CategoryEvent {}
@@ -8,8 +9,9 @@ abstract class CategoryDetailsEvent {}
 
 class FetchCategoryProducts extends CategoryDetailsEvent {
   final int categoryId;
-
-  FetchCategoryProducts(this.categoryId);
+  final ProductFilter? filter;
+  final SortOption? sortOption;
+  FetchCategoryProducts(this.categoryId, {this.filter,this.sortOption});
 }
 
 class SortCategoryProducts extends CategoryDetailsEvent {

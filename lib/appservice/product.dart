@@ -79,26 +79,37 @@ class Category {
   final int id;
 
   @HiveField(1)
-  final String name;
+  final String slug;
 
   @HiveField(2)
   final String image;
 
   Category({
     required this.id,
-    required this.name,
+    required this.slug,
     required this.image,
   });
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
     id: json['id'],
-    name: json['name'],
+    slug: json['slug'],
     image: json['image'],
   );
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'name': name,
+    'name': slug,
     'image': image,
   };
+}
+class ProductFilter {
+  final String? categorySlug;
+  final int minPrice;
+  final int maxPrice;
+
+  ProductFilter({
+    required this.categorySlug,
+    required this.minPrice,
+    required this.maxPrice,
+  });
 }

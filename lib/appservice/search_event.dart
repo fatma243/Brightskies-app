@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:my_app/appservice/sort_option.dart';
 
 abstract class SearchEvent {}
@@ -14,3 +15,19 @@ class SortProducts extends SearchEvent {
   final SortOption option;
   SortProducts(this.option);
 }
+
+class ApplyFilters extends SearchEvent {
+  final int? categoryId;
+  final RangeValues? priceRange;
+
+  ApplyFilters({
+    this.categoryId,
+    this.priceRange,
+  });
+}
+
+
+
+
+
+

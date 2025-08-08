@@ -9,7 +9,8 @@ import 'cart_bloc.dart';
 import 'cart_event.dart';
 
 class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({super.key});
+  final int currentIndex;
+  const BottomNavigation({super.key , required this.currentIndex});
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
@@ -20,32 +21,21 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   final List<Widget> _screens = [
 
-    BlocProvider(
-      create: (context) => getIt<ProductBloc>()..add(FetchProducts()),
-      child: const Home(),
-    ),
-    BlocProvider(
-      create: (context) => getIt<ProductBloc>()..add(FetchProducts()),
-      child: const SearchPage(goToHomeOnBack: true),
-    ),
-
-    //const Center(child: Text('Search Screen')),
-    BlocProvider(
-      create: (context) => getIt<ProductBloc>()..add(FetchProducts()),
-      child: const CategoriesPage(),
-    ),
-    //const Center(child: Text('Categories Screen')),
-    BlocProvider(
-      create: (context) => getIt<ProductBloc>()..add(FetchProducts()),
-      child: const ProfilePage(),
-    ),
-    //const ProfilePage(),
+    const Home(),
+    const SearchPage(goToHomeOnBack: true,),
+    const CategoriesPage(),
+    const ProfilePage(),
   ];
 
   void _onTabSelected(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+  void initstate(){
+    super.initState();
+    _selectedIndex=widget.currentIndex;
+
   }
 
   @override

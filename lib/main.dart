@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:my_app/appservice/search_bloc.dart';
-
+import 'appservice/categories_bloc.dart';
+import 'appservice/favorites_bloc.dart';
+import 'appservice/favorites_event.dart';
+import 'appservice/filter_bloc.dart';
 import 'appservice/product.dart';
 import 'appservice/cart_event.dart';
 import 'appservice/cart_bloc.dart';
@@ -27,12 +29,21 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider<FavoritesBloc>(
+          create: (_) => FavoritesBloc()..add(const LoadFavorites({})),
+        ),
+
+        BlocProvider(
+            create: (_) => FilterBloc()
+        ),
         BlocProvider(
           create: (_) => getIt<CartBloc>()..add(LoadCart(savedCart)),
         ),
         BlocProvider(
           create: (_) => getIt<ProductBloc>()..add(FetchProducts()),
         ),
+        BlocProvider(create: (_) => getIt<CategoryDetailsBloc>()),
+
       ],
       child: const App(),
     ),
@@ -47,7 +58,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BottomNavigation(),
+      home: BottomNavigation(currentIndex: 0,),
     );
   }
 }

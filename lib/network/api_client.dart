@@ -26,4 +26,13 @@ abstract class ApiClient {
   @GET("products/")
   Future<List<Product>> getAllProducts();
 
+  @GET("products")
+  Future<List<Product>>getFilteredProducts ({
+    @Query("title") String? title,
+    @Query("price_min") int? priceMin,
+    @Query("price_max") int? priceMax,
+    @Query("categoryId") int? categoryId,
+    @Query("categorySlug") int? categorySlug,
+  });
+
 }

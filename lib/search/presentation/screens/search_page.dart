@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import '../../../appservice/bottom_navigation.dart';
 import '../../../appservice/cart_bloc.dart';
 import '../../../appservice/cart_event.dart';
 import '../../../appservice/filter_page.dart';
@@ -10,7 +11,6 @@ import '../../../appservice/search_event.dart';
 import '../../../appservice/search_state.dart';
 import '../../../commonui/sort_filter_row.dart';
 import '../../../productdetails/presentation/screens/product_detail_screen.dart';
-
 import '../../../network/api_client.dart';
 import '../../../appservice/search_bloc.dart';
 import '../search_service.dart';
@@ -25,6 +25,8 @@ class SearchPage extends StatefulWidget {
     this.categoryName,
     this.categoryId,
     this.goToHomeOnBack = false,
+
+
   });
 
   @override
@@ -55,14 +57,6 @@ class _SearchPageState extends State<SearchPage> {
     searchBloc = SearchBloc(apiClient)
       ..add(LoadCategoryProducts(categoryId: widget.categoryId));
   }
-
-  // void _handleBack() {
-  //   if (widget.goToHomeOnBack) {
-  //     Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
-  //   } else {
-  //     Navigator.pop(context);
-  //   }
-  // }
   void _showSortOptions() async {
     final selected = await showModalBottomSheet<SortOption>(
       context: context,
@@ -102,11 +96,22 @@ class _SearchPageState extends State<SearchPage> {
           foregroundColor: Colors.black,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Color(0xFF0019FF)),
+
             onPressed: () {
-              Navigator.pop(context);
+              if (widget.goToHomeOnBack) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BottomNavigation(currentIndex: 0),
+                  ),
+                );
+              } else {
+                Navigator.pop(context);
+              }
             },
 
           ),
+
           title: SizedBox(
             width: 225,
             height: 44,
@@ -139,12 +144,12 @@ class _SearchPageState extends State<SearchPage> {
                       title: Text(term, style: const TextStyle(fontSize: 14)),
                       trailing: IconButton(
                         icon: Container(
-                          width: 12,
-                          height:12,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFF8F9098),
-                            shape:BoxShape.circle,
-                          ),
+                            width: 12,
+                            height:12,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF8F9098),
+                              shape:BoxShape.circle,
+                            ),
                             child: const Icon(
                               Icons.close,
                               color:Colors.white,
@@ -182,12 +187,30 @@ class _SearchPageState extends State<SearchPage> {
                   children: [
                     SortFilterRow(
                       onSortPressed: _showSortOptions,
-                      onFilterPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const FilterPage()),
-                        );
-                      },
+                        onFilterPressed: () async {
+                          final filterData = await Navigator.push<Map<String, dynamic>>(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const FilterPage(searchFlag: true),
+                            ),
+                          );
+
+                          if (filterData != null) {
+                            final int? categoryId = filterData['categoryId'] as int?;
+                            final RangeValues? priceRange = filterData['priceRange'] as RangeValues?;
+
+                            context.read<SearchBloc>().add(
+                              ApplyFilters(
+                                categoryId: categoryId,
+                                priceRange: priceRange,
+                              ),
+                            );
+                          }
+                        }
+
+
+
+
                     ),
                     Expanded(
                       child: GridView.builder(

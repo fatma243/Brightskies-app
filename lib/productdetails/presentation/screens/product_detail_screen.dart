@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../appservice/favorites_bloc.dart';
+import '../../../appservice/favorites_event.dart';
+import '../../../appservice/favorites_state.dart';
 import '../../../appservice/product.dart';
 import '../../../appservice/cart_bloc.dart';
 import '../../../appservice/cart_event.dart';
@@ -71,21 +74,37 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   fontSize: 18, fontWeight: FontWeight.w800),
                             ),
                           ),
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
+                          BlocBuilder<FavoritesBloc, FavoritesState>(
+                            builder: (context, state) {
+                              final isFavorite = state.items[product] ?? false;
 
-                            ),
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              icon: const Icon(Icons.favorite_border,
-                                  size: 20, color: Color(0xFF0019FF)),
-                              onPressed: () {},
-                            ),
+                              return Container(
+                                width: 32,
+                                height: 32,
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  icon: Icon(
+                                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                                    size: 20,
+                                    color: const Color(0xFF0019FF),
+                                  ),
+                                  onPressed: () {
+                                    final bloc = context.read<FavoritesBloc>();
+                                    if (isFavorite) {
+                                      bloc.add(RemoveFromFavorites(product));
+                                    } else {
+                                      bloc.add(AddToFavorites(product));
+                                    }
+                                  },
+                                ),
+                              );
+                            },
                           ),
+
                         ],
                       ),
                       const SizedBox(height: 8),
